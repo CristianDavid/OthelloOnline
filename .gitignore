@@ -2,3 +2,6 @@ build/*
 build-release/*
 build-debug/*
 bin/*
+ClasePartida/*.pro
+ClasePartida/*.user
+ClasePartida/*.ui
