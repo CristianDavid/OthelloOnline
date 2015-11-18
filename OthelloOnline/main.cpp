@@ -1,10 +1,15 @@
-#include "ventanaprincipal.h"
+#include "vistajuego.h"
+#include "boardscene.h"
 #include <QApplication>
+#include <QGraphicsRectItem>
 
 int main(int argc, char *argv[]) {
-   QApplication a(argc, argv);
-   VentanaPrincipal w;
-   w.show();
+   QApplication app(argc, argv);
+   VistaJuego view;
+   BoardScene scene;
 
-   return a.exec();
+   view.setScene(&scene);
+   view.show();
+
+   return app.exec();
 }

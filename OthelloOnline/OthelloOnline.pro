@@ -12,9 +12,17 @@ TARGET = OthelloOnline
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        ventanaprincipal.cpp
+SOURCES += main.cpp \
+    vistajuego.cpp \
+    boardscene.cpp \
+    boardhandler.cpp \
+    squareitem.cpp
 
-HEADERS  += ventanaprincipal.h
+HEADERS  += \
+    vistajuego.h \
+    boardscene.h \
+    boardhandler.h \
+    squareitem.h
 
-FORMS    += ventanaprincipal.ui
+FORMS    += \
+    vistajuego.ui
