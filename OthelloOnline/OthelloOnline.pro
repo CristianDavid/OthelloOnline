@@ -16,13 +16,15 @@ SOURCES += main.cpp \
     vistajuego.cpp \
     boardscene.cpp \
     boardhandler.cpp \
-    squareitem.cpp
+    squareitem.cpp \
+    mainview.cpp
 
 HEADERS  += \
     vistajuego.h \
     boardscene.h \
     boardhandler.h \
-    squareitem.h
+    squareitem.h \
+    mainview.h
 
 FORMS    += \
     vistajuego.ui

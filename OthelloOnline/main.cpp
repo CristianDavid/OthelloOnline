@@ -1,4 +1,5 @@
 #include "vistajuego.h"
+#include "mainview.h"
 #include "boardscene.h"
 #include <QApplication>
 #include <QGraphicsRectItem>
@@ -10,6 +11,9 @@ int main(int argc, char *argv[]) {
 
    view.setScene(&scene);
    view.show();
+
+   MainView mainView;
+   mainView.show();
 
    return app.exec();
 }

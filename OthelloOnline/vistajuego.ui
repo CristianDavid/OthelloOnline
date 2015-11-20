@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>0</width>
-     <height>0</height>
+     <width>1000</width>
+     <height>100</height>
     </rect>
    </property>
   </widget>
@@ -28,8 +28,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>4</width>
-     <height>13</height>
+     <width>100</width>
+     <height>100</height>
     </rect>
    </property>
   </widget>
