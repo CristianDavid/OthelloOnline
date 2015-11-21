@@ -1,26 +1,98 @@
 #include "mainview.h"
+#include <cmath>
+#include <QBrush>
+#include <QColor>
 #include <QGraphicsScene>
 #include <QGraphicsSimpleTextItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QFontDatabase>
 #include <QFont>
+#include <QPointF>
+#include <QRadialGradient>
+#include <QString>
 #include <QDebug>
-#include <cstdio>
-#include <cstdlib>
+#include "boardscene.h"
+#include "vistajuego.h"
 
-#define DEFAULT_FONT "fonts/d-puntillas-D-to-tiptoe.ttf"
+#define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
+
+const QString OPCIONES[] = {
+   QString("Crear partida"),
+   QString("Unirse a partida"),
+   QString::fromUtf8("Configuraci\u00f3n"),
+};
+
+void crearPartida(void) {
+   VistaJuego *view = new VistaJuego;
+   BoardScene *scene = new BoardScene;
+   view->setScene(scene);
+   view->show();
+}
+
+void unirseAPartida() {
+
+}
+
+void configuracion() {
+
+}
+
+void (*subMenus[])(void) = {
+   crearPartida,
+   unirseAPartida,
+   configuracion
+};
+
+class MainMenuItem : public QGraphicsSimpleTextItem {
+ public:
+   MainMenuItem(const QString &text, void (*onClick) (void) = NULL) :
+      QGraphicsSimpleTextItem(text),
+      onClick(onClick) {
+      if (fontId == -2)
+         fontId = QFontDatabase::addApplicationFont(DEFAULT_FONT_FILE);
+      if (fontId != -1) {
+         QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
+         QFont font(family, 40, 40, true);
+         setFont(font);
+      }
+      setBrush(QColor(89,133,0));
+      setFlag(QGraphicsItem::ItemIsFocusable);
+   }
+ protected:
+   void mousePressEvent(QGraphicsSceneMouseEvent *event) {
+      pressed = event->lastPos();
+   }
+
+   void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+      if (pressed == event->lastPos() && onClick != NULL)
+         onClick();
+   }
+
+ private:
+   void (*onClick) (void);
+   static int fontId;
+   static QPointF pressed;
+};
+
+int MainMenuItem::fontId = -2;
+QPointF MainMenuItem::pressed(NAN, NAN);
 
 MainView::MainView() {
    QGraphicsScene *menu = new QGraphicsScene();
-   QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("Jugar");
-   int fontId = QFontDatabase::addApplicationFont(DEFAULT_FONT);
-   if (fontId != -1) {
-      QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
-      QFont font(family, 40, 40, true);
-      text->setFont(font);
+   MainMenuItem *text;
+   qreal y = 0;
+   for (int i = 0; i < 3; i++) {
+      text = new MainMenuItem(OPCIONES[i], subMenus[i]);
+      text->setPos(menu->width() / 2, y);
+      menu->addItem(text);
+      y += 160;
    }
+   QRadialGradient gradient(400, 300, 250);
+   gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
+   gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
+   QBrush bgBrush(gradient);
+   setBackgroundBrush(bgBrush);
    setFixedSize(800, 600);
-   menu->addItem(text);
    menu->setSceneRect(0, 0, 790, 590);
-   text->setPos(menu->width() / 2, 0);
    setScene(menu);
 }
