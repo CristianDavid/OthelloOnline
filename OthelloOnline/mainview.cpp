@@ -13,6 +13,7 @@
 #include <QDebug>
 #include "boardscene.h"
 #include "vistajuego.h"
+#include "unirseapatridadialog.h"
 
 #define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
 
@@ -30,7 +31,8 @@ void crearPartida(void) {
 }
 
 void unirseAPartida() {
-
+   UnirseAPatridaDialog *dialog = new UnirseAPatridaDialog;
+   dialog->show();
 }
 
 void configuracion() {
@@ -87,7 +89,7 @@ MainView::MainView() {
       menu->addItem(text);
       y += 160;
    }
-   QRadialGradient gradient(400, 300, 250);
+   QRadialGradient gradient(100, 500, 250);
    gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
    QBrush bgBrush(gradient);

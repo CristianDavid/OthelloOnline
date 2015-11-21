@@ -17,14 +17,17 @@ SOURCES += main.cpp \
     boardscene.cpp \
     boardhandler.cpp \
     squareitem.cpp \
-    mainview.cpp
+    mainview.cpp \
+    unirseapatridadialog.cpp
 
 HEADERS  += \
     vistajuego.h \
     boardscene.h \
     boardhandler.h \
     squareitem.h \
-    mainview.h
+    mainview.h \
+    unirseapatridadialog.h
 
 FORMS    += \
-    vistajuego.ui
+    vistajuego.ui \
+    unirseapatridadialog.ui
