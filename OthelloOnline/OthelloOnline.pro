@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     boardhandler.cpp \
     squareitem.cpp \
     mainview.cpp \
-    unirseapatridadialog.cpp
+    unirseapatridadialog.cpp \
+    partida.cpp
 
 HEADERS  += \
     vistajuego.h \
@@ -26,7 +27,9 @@ HEADERS  += \
     boardhandler.h \
     squareitem.h \
     mainview.h \
-    unirseapatridadialog.h
+    unirseapatridadialog.h \
+    jugador.h \
+    partida.h
 
 FORMS    += \
     vistajuego.ui \
