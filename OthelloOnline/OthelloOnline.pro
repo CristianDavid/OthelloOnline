@@ -19,7 +19,9 @@ SOURCES += main.cpp \
     squareitem.cpp \
     mainview.cpp \
     unirseapatridadialog.cpp \
-    partida.cpp
+    partida.cpp \
+    jugadorlocal.cpp \
+    jugadorremoto.cpp
 
 HEADERS  += \
     vistajuego.h \
@@ -29,7 +31,9 @@ HEADERS  += \
     mainview.h \
     unirseapatridadialog.h \
     jugador.h \
-    partida.h
+    partida.h \
+    jugadorlocal.h \
+    jugadorremoto.h
 
 FORMS    += \
     vistajuego.ui \
