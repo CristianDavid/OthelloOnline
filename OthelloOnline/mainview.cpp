@@ -7,6 +7,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QFontDatabase>
 #include <QFont>
+#include <QMediaPlayer>
 #include <QPointF>
 #include <QRadialGradient>
 #include <QString>
@@ -16,6 +17,7 @@
 #include "unirseapatridadialog.h"
 
 #define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
+#define URI_TEMA_INICIO "/home/cristian/Source/PrograInternet/ProyectoFinal/OthelloOnline/build-debug/audio/OthelloOnline.wav"
 
 const QString OPCIONES[] = {
    QString("Crear partida"),
@@ -97,4 +99,13 @@ MainView::MainView() {
    setFixedSize(800, 600);
    menu->setSceneRect(0, 0, 790, 590);
    setScene(menu);
+
+   player = new QMediaPlayer;
+   player->setMedia(QUrl::fromLocalFile(URI_TEMA_INICIO));
+   player->setVolume(50);
+   player->play();
+}
+
+MainView::~MainView() {
+   delete player;
 }
