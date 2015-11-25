@@ -15,6 +15,9 @@ public:
    explicit DialogoCrearPartida(QWidget *parent = 0);
    ~DialogoCrearPartida();
 
+private slots:
+   void on_DialogoCrearPartida_accepted();
+
 private:
    Ui::DialogoCrearPartida *ui;
 };

@@ -12,8 +12,6 @@
 #include <QRadialGradient>
 #include <QString>
 #include <QDebug>
-#include "boardscene.h"
-#include "vistajuego.h"
 #include "unirseapatridadialog.h"
 #include "dialogocrearpartida.h"
 
@@ -33,10 +31,6 @@ const QString OPCIONES[] = {
 void crearPartida(void) {
    DialogoCrearPartida *dialog = new DialogoCrearPartida;
    dialog->show();
-   /*VistaJuego *view = new VistaJuego;
-   BoardScene *scene = new BoardScene;
-   view->setScene(scene);
-   view->show();*/
 }
 
 void unirseAPartida() {
