@@ -6,6 +6,8 @@
 class JugadorLocal : public Jugador {
 public:
    JugadorLocal();
+private:
+   int proximoMovimiento;
 };
 
 #endif // JUGADORLOCAL_H
