@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 TARGET = OthelloOnline
 TEMPLATE = app
@@ -18,7 +18,10 @@ SOURCES += main.cpp \
     boardhandler.cpp \
     squareitem.cpp \
     mainview.cpp \
-    unirseapatridadialog.cpp
+    unirseapatridadialog.cpp \
+    partida.cpp \
+    jugadorlocal.cpp \
+    jugadorremoto.cpp
 
 HEADERS  += \
     vistajuego.h \
@@ -26,7 +29,11 @@ HEADERS  += \
     boardhandler.h \
     squareitem.h \
     mainview.h \
-    unirseapatridadialog.h
+    unirseapatridadialog.h \
+    jugador.h \
+    partida.h \
+    jugadorlocal.h \
+    jugadorremoto.h
 
 FORMS    += \
     vistajuego.ui \
