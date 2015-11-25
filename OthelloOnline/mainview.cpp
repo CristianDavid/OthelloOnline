@@ -17,7 +17,7 @@
 #include "unirseapatridadialog.h"
 #include "dialogocrearpartida.h"
 
-#define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
+#define DEFAULT_FONT_FILE ":/fonts/main_menu_font.ttf"
 #ifdef linux
 #define URI_TEMA_INICIO "qrc:/sounds/main_theme.ogg"
 #else

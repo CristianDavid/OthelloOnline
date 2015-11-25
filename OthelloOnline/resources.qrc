@@ -3,4 +3,7 @@
         <file>main_theme.mp3</file>
         <file>main_theme.ogg</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file alias="main_menu_font.ttf">fonts/d-puntillas-D-to-tiptoe.ttf</file>
+    </qresource>
 </RCC>
