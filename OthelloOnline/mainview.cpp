@@ -105,6 +105,7 @@ MainView::MainView() {
    player->setMedia(QUrl(URI_TEMA_INICIO));
    player->setVolume(50);
    player->play();
+   connect(player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), player, SLOT(play()));
 }
 
 MainView::~MainView() {
