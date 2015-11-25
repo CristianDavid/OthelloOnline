@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     partida.cpp \
     jugadorlocal.cpp \
     jugadorremoto.cpp \
-    dialogocrearpartida.cpp
+    dialogocrearpartida.cpp \
+    jugador.cpp
 
 HEADERS  += \
     vistajuego.h \

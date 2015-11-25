@@ -5,7 +5,9 @@
 
 class JugadorLocal : public Jugador {
 public:
-   JugadorLocal();
+   JugadorLocal(const char *nombre);
+   int hacerMovimiento();
+   void notificarMovimiento(int movimientoAdversario);
 private:
    int proximoMovimiento;
 };

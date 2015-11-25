@@ -2,14 +2,14 @@
 #include "vistajuego.h"
 #include "boardscene.h"
 
-JugadorLocal::JugadorLocal() :
+JugadorLocal::JugadorLocal(const char *nombre) :
    proximoMovimiento(-1) {
+   setNombre(nombre);
 }
 
-/*int JugadorLocal::hacerMovimiento() {
+int JugadorLocal::hacerMovimiento() {
    return proximoMovimiento;
 }
 
 void JugadorLocal::notificarMovimiento(int movimientoAdversario) {
-
-}*/
+}
