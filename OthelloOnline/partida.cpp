@@ -4,8 +4,6 @@
 
 using namespace std;
 
-//TODO:FALTA VALIDAR LA EXPRESION DE CADENA VALIDA
-
 Partida::Partida(){
     int i,j;
     for (i = 0; i< ANCHO_TABLERO; i++){
@@ -13,11 +11,10 @@ Partida::Partida(){
             tablero[i][j]=LUGAR_VACIO;
         }
     }
-    tablero[3][3]=JUGADOR_BLANCO;
-    tablero[4][4]=JUGADOR_BLANCO;
-    tablero[4][3]=JUGADOR_NEGRO;
-    tablero[3][4]=JUGADOR_NEGRO;
-    imprimirTablero();
+    tablero[ANCHO_TABLERO/2 -1][ANCHO_TABLERO/2 -1]=JUGADOR_BLANCO;
+    tablero[ANCHO_TABLERO/2][ANCHO_TABLERO/2]=JUGADOR_BLANCO;
+    tablero[ANCHO_TABLERO/2][ANCHO_TABLERO/2-1]=JUGADOR_NEGRO;
+    tablero[ANCHO_TABLERO/2-1][ANCHO_TABLERO/2]=JUGADOR_NEGRO;
 }
 
 bool Partida::esMovimientoValido(int x, int y){
@@ -81,27 +78,88 @@ string Partida::obtenerLinea(int x , int y, int direccion){
 	return lineaDeseada;
 }
 
-bool Partida::esLaLineaValida(char jugador,int x, std::string linea){
-	//FALTA TERMINAR
+bool Partida::esLaLineaValida(char jugador,int y, std::string linea){
 	bool esValida;
 	char contrario;
 	contrario=(jugador==JUGADOR_NEGRO)?JUGADOR_BLANCO:JUGADOR_NEGRO;
-	if (x+1>linea.length()){
+	vector<string> v=split(linea,y);
+	string parteUno,parteDos;
+	parteUno = v.at(0);
+	parteDos = v.at(1);
+
+	if (y+1>linea.length()){
 		cout << "ERROR: NO PUEDES PASAR UN X MAYOR QUE LA CADENA" << endl;
 	}
 	else{
 		if (linea.length()>=3){
-			//Automata equivalente a .*x*o*x
-			for (int i =0 ; i < linea.length(); i++){
-				for (int j = i; j < linea.length(); ++j){
-					
+			//Primera cadena.
+			cout << "Primera cadena :" << parteUno << "|";
+			int j=(parteUno.length()-1)-1;
+			if (parteUno[j]==contrario){
+				while(j>0 && parteUno[j]==contrario ){
+					cout << j<< "*j*" <<endl;
+					j--;
+				}
+				if(j>=0 && parteUno[j]==jugador ){
+					esValida=true;
+					cout << "true";
 				}
 
 			}
+			else{
+				esValida=false;
+			}
+
+
+			//Segunda cadena
+			cout << "Segunda cadena:" << parteDos << "|";
+			if(esValida==false){
+				int i=1;
+				if (parteDos[i]==contrario){
+					while(i<parteDos.length() && parteDos[i]==contrario ){
+						i++;
+						cout << i+y<< "*i*" <<endl;
+					}
+					if(i<parteDos.length() && parteDos[i]==jugador ){
+						esValida=true;
+						cout << "true";
+					}
+
+				}
+				else{
+					esValida=false;
+				}
+				
+			}
+
 		}
 		else 
 			esValida=false;
-		
 	}
 	return esValida;
+}
+
+void Partida::hacerMovimiento(int x, int y , char jugador){
+	tablero[x][y]=jugador;
+}
+
+
+vector<string> Partida::split(string s, int posicion){
+	// =(
+	std::vector<string> v;
+	char cadena[s.length()+1];
+	char cadenaUno[s.length()+1], cadenaDos[s.length()+1];
+
+	strcpy (cadena,s.c_str());
+	strncpy (cadenaUno,cadena,posicion+1);
+	strncpy (cadenaDos,cadena+posicion,s.length());
+
+	cadenaUno[posicion+1]=0;
+	cadenaDos[s.length()]=0;
+
+	string stringUno(cadenaUno);
+	string stringDos(cadenaDos);
+	v.push_back(cadenaUno);
+	v.push_back(cadenaDos);
+	return v;
 }
