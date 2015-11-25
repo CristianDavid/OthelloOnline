@@ -15,6 +15,7 @@
 #include "boardscene.h"
 #include "vistajuego.h"
 #include "unirseapatridadialog.h"
+#include "dialogocrearpartida.h"
 
 #define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
 #define URI_TEMA_INICIO "/home/cristian/Source/PrograInternet/ProyectoFinal/OthelloOnline/build-debug/audio/OthelloOnline.wav"
@@ -26,10 +27,12 @@ const QString OPCIONES[] = {
 };
 
 void crearPartida(void) {
-   VistaJuego *view = new VistaJuego;
+   DialogoCrearPartida *dialog = new DialogoCrearPartida;
+   dialog->show();
+   /*VistaJuego *view = new VistaJuego;
    BoardScene *scene = new BoardScene;
    view->setScene(scene);
-   view->show();
+   view->show();*/
 }
 
 void unirseAPartida() {

@@ -9,15 +9,19 @@
 #include <QString>
 #include <QDebug>
 
-class HostWidgetItem : QListWidgetItem {
+class HostWidgetItem : public QListWidgetItem {
  public:
    HostWidgetItem(const char *hostName, const char *nombrePartida) {
-      strncpy(this->hostName, (host != NULL)? hostName : "", 255);
+      strncpy(this->hostName, (hostName != NULL)? hostName : "", 255);
       strncpy(this->nombrePartida, (nombrePartida != NULL)? nombrePartida : "", 255);
       setText(QString(getNombrePartida()) + " - " + getHostName());
    }
-   const char *getHostName();
-   const char *getNombrePartida();
+   const char *getHostName() {
+      return hostName;
+   }
+   const char *getNombrePartida() {
+      return nombrePartida;
+   }
  private:
    char hostName[256];
    char nombrePartida[256];

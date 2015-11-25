@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     unirseapatridadialog.cpp \
     partida.cpp \
     jugadorlocal.cpp \
-    jugadorremoto.cpp
+    jugadorremoto.cpp \
+    dialogocrearpartida.cpp
 
 HEADERS  += \
     vistajuego.h \
@@ -33,8 +34,10 @@ HEADERS  += \
     jugador.h \
     partida.h \
     jugadorlocal.h \
-    jugadorremoto.h
+    jugadorremoto.h \
+    dialogocrearpartida.h
 
 FORMS    += \
     vistajuego.ui \
-    unirseapatridadialog.ui
+    unirseapatridadialog.ui \
+    dialogocrearpartida.ui
