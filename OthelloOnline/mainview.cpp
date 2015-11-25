@@ -18,7 +18,11 @@
 #include "dialogocrearpartida.h"
 
 #define DEFAULT_FONT_FILE "fonts/d-puntillas-D-to-tiptoe.ttf"
-#define URI_TEMA_INICIO "/home/cristian/Source/PrograInternet/ProyectoFinal/OthelloOnline/build-debug/audio/OthelloOnline.wav"
+#ifdef linux
+#define URI_TEMA_INICIO "qrc:/sounds/main_theme.ogg"
+#else
+#define URI_TEMA_INICIO "qrc:/sounds/main_theme.mp3"
+#endif
 
 const QString OPCIONES[] = {
    QString("Crear partida"),
@@ -104,7 +108,7 @@ MainView::MainView() {
    setScene(menu);
 
    player = new QMediaPlayer;
-   player->setMedia(QUrl::fromLocalFile(URI_TEMA_INICIO));
+   player->setMedia(QUrl(URI_TEMA_INICIO));
    player->setVolume(50);
    player->play();
 }

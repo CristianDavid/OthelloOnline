@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>main_theme.mp3</file>
+        <file>main_theme.ogg</file>
+    </qresource>
+</RCC>

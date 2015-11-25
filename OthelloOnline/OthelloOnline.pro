@@ -41,3 +41,6 @@ FORMS    += \
     vistajuego.ui \
     unirseapatridadialog.ui \
     dialogocrearpartida.ui
+
+RESOURCES += \
+    resources.qrc
