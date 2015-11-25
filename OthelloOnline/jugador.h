@@ -3,8 +3,11 @@
 
 class Jugador {
  public:
-   int hacerMovimiento();
-   void notificarMovimiento(int movimientoAdversario);
+   virtual ~Jugador();
+   virtual int hacerMovimiento() = 0;
+   virtual void notificarMovimiento(int movimientoAdversario) = 0;
+   void setNombre(const char *nombre);
+   const char *getNombre();
  private:
    char nombre[256];
 };
