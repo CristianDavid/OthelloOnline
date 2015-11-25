@@ -16,7 +16,7 @@ private:
 signals:
 
 public slots:
-
+   void ponerFicha(int i, int j);
 };
 
 #endif // BOARDSCENE_H

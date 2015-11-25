@@ -1,11 +1,9 @@
 #include "squareitem.h"
 #include <cmath>
 #include <QGraphicsRectItem>
-#include <QGraphicsEllipseItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QBrush>
-#include <QDebug>
 #include <QColor>
 #include <QPointF>
 
@@ -15,14 +13,20 @@ SquareItem::SquareItem() {
    setFlag(QGraphicsItem::ItemIsFocusable);
 }
 
+SquareItem::~SquareItem() {
+}
+
+void SquareItem::setCoordinates(int i, int j) {
+   this-> i = i;
+   this-> j = j;
+}
+
 void SquareItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
    pressed = event->lastPos();
 }
 
 void SquareItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
    if (pressed == event->lastPos()) {
-      QGraphicsEllipseItem *disk = new QGraphicsEllipseItem(x(), y(), 50, 50);
-      disk->setBrush(Qt::white);
-      scene()->addItem(disk);
+      emit clicked(i, j);
    }
 }
