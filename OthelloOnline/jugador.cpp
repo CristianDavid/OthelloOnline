@@ -11,3 +11,19 @@ void Jugador::setNombre(const char *nombre) {
 const char *Jugador::getNombre() {
    return nombre;
 }
+
+void Jugador::setColor(char color) {
+   this->color = color;
+}
+
+char Jugador::getColor() {
+   return color;
+}
+
+void Jugador::setPuntaje(int puntaje) {
+   this->puntaje = puntaje;
+}
+
+int Jugador::getPuntaje() {
+   return puntaje;
+}
