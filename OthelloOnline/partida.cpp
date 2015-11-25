@@ -175,9 +175,28 @@ void Partida::hacerMovimiento(int x, int y , char jugador){
 		v.erase( unique( v.begin(), v.end() ), v.end() );
 		for (i=0; c<ANCHO_TABLERO && d < ALTO_TABLERO; c++,d++,i++){
 			if (find(v.begin(), v.end(), i) != v.end()){
-				tablero[x][y]=jugador;
+				
+				tablero[c][d]=jugador;
 			}
 		}
+		v.clear();
+		//SUROESTE
+		v= posicionesACambiar(jugador,x,obtenerLinea(x,y,SUROESTE));
+		c=x;
+		d=y;
+		sort(v.begin(),v.end());
+		v.erase( unique( v.begin(), v.end() ), v.end() );
+		while(c!=0){
+			c--;
+			d++;
+		}
+		for (i=0; c<ANCHO_TABLERO && d<ALTO_TABLERO && d!=-1; c++,d--,i++){
+			if (find(v.begin(), v.end(), i) != v.end()){	
+				tablero[c][d]=jugador;
+			}
+		}
+
+
 	}
 	else{
 		cout << "NO ES MOVIMIENTO VALIDO"<< endl;
@@ -206,6 +225,20 @@ vector<string> Partida::split(string s, int posicion){
 	return v;
 }
 //Solo para hacer pruebas mientra creo hacer movimiento
-void Partida::mierda(int x, int y , char jugador){
-	tablero[x][y]=jugador;
+// void Partida::mierda(int x, int y , char jugador){
+// 	tablero[x][y]=jugador;
+// }
+
+
+char** Partida::dameTablero(){
+  char** array2D = 0;
+  array2D = new char*[ANCHO_TABLERO];
+
+  for (int h = 0; h < ALTO_TABLERO; h++){
+        array2D[h] = new char[ANCHO_TABLERO];
+        for (int w = 0; w < ANCHO_TABLERO; w++){
+              array2D[h][w] = tablero[h][w];
+        }
+  }
+  return array2D;
 }

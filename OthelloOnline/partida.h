@@ -22,7 +22,6 @@ se crea dede sureste hacia noreste*/
 
 using namespace std;
 class Partida{
-public:
     char tablero[ANCHO_TABLERO][ALTO_TABLERO];
     //jugadorRemoto
     //JugadorLocal
@@ -30,14 +29,15 @@ public:
 private:
 	vector<string> split(string s, int posicion);
 public:
-    void imprimirTablero();
+    Partida();
     string obtenerLinea(int x, int y , int direccion);
     vector<int> posicionesACambiar(char jugador,int y,string linea);
-    void hacerMovimiento(int x, int y , char jugador);
-    Partida();
     bool esMovimientoValido(int x, int y, char jugador);
+    char** dameTablero();
+    void imprimirTablero();
+    void hacerMovimiento(int x, int y , char jugador);
     //Solo para hacer pruebas mientra hago hacerMoviemtno
-    void mierda(int x, int y , char jugador);
+    // void mierda(int x, int y , char jugador);
 
 };
 
