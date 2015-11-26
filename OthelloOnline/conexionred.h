@@ -11,6 +11,9 @@
 #include <unistd.h>
 #include <errno.h>
 #include <arpa/inet.h> 
+
+#define OFRECER_TABLAS 0x64
+
 //Pesa 3 bytes
 struct cabecera{
 	//Cabecera
