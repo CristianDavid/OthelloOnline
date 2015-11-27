@@ -140,6 +140,7 @@ bool ConexionRed::startAsServer(const char *localName) {
 
    buf[0] = 3;
    buf[1] = strlen(localName);
+   strncpy((char*) &buf[2], localName, buf[1]);
    res = send(clientSocket, buf, buf[1] + 2, 0);
    if (res == -1) {
       perror("Error al confirmar comunicación");
@@ -202,7 +203,7 @@ bool ConexionRed::startAsClient(const char *localName) {
    unsigned char buf[512] = "OO";
    buf[3] = strlen(localName);
    strncpy((char *) &buf[4], localName, buf[3]);
-   res = send(clientSocket, buf, buf[3]+3, 0);
+   res = send(clientSocket, buf, buf[3]+4, 0);
    if (res < 0) {
       perror("Error al formular peticion");
       close();
