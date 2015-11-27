@@ -11,13 +11,8 @@
 #include <string>
 #include <vector>
 
-class JugadorRemoto;
-class JugadorLocal;
-
 class Partida {
     char tablero[ANCHO_TABLERO][ALTO_TABLERO];
-    JugadorRemoto *jugadorRemoto;
-    JugadorLocal *jugadorLocal;
 private:
    std::vector<std::string> split(std::string s, int posicion);
 public:

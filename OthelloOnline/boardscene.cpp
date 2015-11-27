@@ -24,20 +24,20 @@ BoardScene::BoardScene(QObject *parent) :
          casilla.setRect(0, 0, 50, 50);
          casilla.setX(posX);
          casilla.setY(posY);
-         connect(&casilla, SIGNAL(clicked(int,int)), this, SLOT(ponerFicha(int,int)));
+         connect(&casilla, SIGNAL(clicked(int,int)), this, SLOT(emitirCasillaClick(int,int)));
          addItem(&casilla);
       }
    }
 
 }
 
-void BoardScene::ponerFicha(int i, int j) {
+void BoardScene::ponerFicha(int i, int j, QColor colorJugador) {
    SquareItem &casilla = casillas[i][j];
    QList<QGraphicsItem*> children = casilla.childItems();
    if (children.isEmpty()) {
       QGraphicsEllipseItem *disk = new QGraphicsEllipseItem(
                                        0, 0, 50, 50, &casilla);
-      disk->setBrush(Qt::white);
+      disk->setBrush(colorJugador);
    } else {
       QList<QGraphicsItem*>::iterator it = children.begin();
       while (it != children.end()) {
@@ -45,4 +45,8 @@ void BoardScene::ponerFicha(int i, int j) {
          it++;
       }
    }
+}
+
+void BoardScene::emitirCasillaClick(int i, int j) {
+   emit casillaClick(i, j);
 }

@@ -12,12 +12,17 @@
 #include <QString>
 #include <QMessageBox>
 #include <QProgressDialog>
+#include <QTimer>
 #include <QDebug>
+#include <QThread>
 #include "unirseapatridadialog.h"
 #include "dialogocrearpartida.h"
 #include "mainmenuitem.h"
 #include "boardscene.h"
 #include "conexionred.h"
+#include "jugadorlocal.h"
+#include "jugadorremoto.h"
+#include "partida.h"
 
 #ifdef linux
 #define URI_TEMA_INICIO "qrc:/sounds/main_theme.ogg"
@@ -71,23 +76,36 @@ void MainView::crearPartida() {
    DialogoCrearPartida dialog(this);
    int option = dialog.exec();
    if (option == QDialog::Accepted) {
-      ConexionRed *conexion = dialog.getConexion();
-      const char *nombre = dialog.getNombrePartida();
-      if (conexion != NULL && nombre != NULL) {
-         QProgressDialog esperando("Esperando un jugador", "Cancelar Partida", 0, 0, this);
-         //esperando.setWindowModality(Qt::NonModal);
-         //esperando.show();
-         do {
-            qDebug() << "paso here";
-            conexion->start(nombre);
-           // if (esperando.wasCanceled()) {
-             //  delete conexion;
-              // return;
-            //}
-         } while (!conexion->isOpen() || conexion->shouldRetry());
-         juego = new BoardScene(this);
-         setScene(juego);
+      conexion = dialog.getConexion();
+      nombreConexion = dialog.getNombrePartida();
+      if (conexion != NULL) {
+         esperando = new QProgressDialog("Esperando un jugador", "Cancelar Partida", 0, 0, this);
+         connect(esperando, SIGNAL(canceled()), this, SLOT(cancelarEspera()));
+         connect(&timer, SIGNAL(timeout()), this, SLOT(encontrandoJugadores()));
+         esperando->show();
+         timer.setInterval(500);
+         timer.start();
       }
+   }
+}
+
+void MainView::cancelarEspera() {
+   timer.stop();
+   delete conexion;
+   esperando->hide();
+   delete esperando;
+}
+
+void MainView::encontrandoJugadores() {
+   conexion->start(nombreConexion.c_str());
+   if (conexion->isOpen()) {
+      juego = new BoardScene();
+      jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
+      setScene(juego);
+      timer.stop();
+      delete esperando;
+   } else if (!conexion->shouldRetry()) {
+      cancelarEspera();
    }
 }
 
@@ -97,9 +115,14 @@ void MainView::unirseAPartida() {
    if (option == QDialog::Accepted) {
       const char *host = dialog.getSelectedHost();
       if (host != NULL) {
-         ConexionRed conexion(host, OTHELLO_ONLINE_DEFAULT_PORT);
-         juego = new BoardScene(this);
-         setScene(juego);
+         conexion = new ConexionRed(host, OTHELLO_ONLINE_DEFAULT_PORT);
+         if (conexion->start(dialog.getNombrePartida())) {
+            juego = new BoardScene(this);
+            jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
+            setScene(juego);
+         } else {
+            delete conexion;
+         }
       }
    }
 }
