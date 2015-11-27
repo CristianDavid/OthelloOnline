@@ -132,6 +132,7 @@ bool ConexionRed::startAsServer(const char *localName) {
    if (res == -1) {
       perror("Error al iniciar comunicación");
       close();
+      return false;
    }
 
    strncpy(remoteName, (char *) &buf[4], buf[3]);
@@ -143,10 +144,11 @@ bool ConexionRed::startAsServer(const char *localName) {
    if (res == -1) {
       perror("Error al confirmar comunicación");
       close();
+      return false;
    }
 
    if (establecerNoBloqueante(clientSocket) == -1) {
-      perror("Error al establecer no bloqueante");
+      perror("Error al establecer cliente no bloqueante");
       close();
       return false;
    }
@@ -259,7 +261,7 @@ int ConexionRed::establecerNoBloqueante(int fd) {
       return -1;
    }
    flags |= O_NONBLOCK;
-   res = fcntl(serverSocket, F_SETFL, flags);
+   res = fcntl(fd, F_SETFL, flags);
    if (res < 0) {
       return -1;
    }

@@ -121,6 +121,9 @@ void MainView::unirseAPartida() {
             jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
             setScene(juego);
          } else {
+            QMessageBox mensajeError;
+            mensajeError.setText("No fue posible establecer la conexion");
+            mensajeError.exec();
             delete conexion;
          }
       }
