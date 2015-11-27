@@ -1,9 +1,8 @@
 #include "mainview.h"
-#include <cmath>
 #include <QBrush>
 #include <QColor>
 #include <QGraphicsScene>
-#include <QGraphicsSimpleTextItem>
+#include <QGraphicsTextItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QFontDatabase>
 #include <QFont>
@@ -14,93 +13,19 @@
 #include <QDebug>
 #include "unirseapatridadialog.h"
 #include "dialogocrearpartida.h"
+#include "mainmenuitem.h"
+#include "boardscene.h"
 
-#define DEFAULT_FONT_FILE ":/fonts/main_menu_font.ttf"
 #ifdef linux
 #define URI_TEMA_INICIO "qrc:/sounds/main_theme.ogg"
 #else
 #define URI_TEMA_INICIO "qrc:/sounds/main_theme.mp3"
 #endif
 
-const QString OPCIONES[] = {
-   QString("Crear partida"),
-   QString("Unirse a partida"),
-   QString::fromUtf8("Configuraci\u00f3n"),
-};
-
-void crearPartida(void) {
-   DialogoCrearPartida *dialog = new DialogoCrearPartida;
-   dialog->show();
-}
-
-void unirseAPartida() {
-   UnirseAPatridaDialog *dialog = new UnirseAPatridaDialog;
-   dialog->show();
-}
-
-void configuracion() {
-
-}
-
-void (*subMenus[])(void) = {
-   crearPartida,
-   unirseAPartida,
-   configuracion
-};
-
-class MainMenuItem : public QGraphicsSimpleTextItem {
- public:
-   MainMenuItem(const QString &text, void (*onClick) (void) = NULL) :
-      QGraphicsSimpleTextItem(text),
-      onClick(onClick) {
-      if (fontId == -2)
-         fontId = QFontDatabase::addApplicationFont(DEFAULT_FONT_FILE);
-      if (fontId != -1) {
-         QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
-         QFont font(family, 40, 40, true);
-         setFont(font);
-      }
-      setBrush(QColor(89,133,0));
-      setFlag(QGraphicsItem::ItemIsFocusable);
-   }
- protected:
-   void mousePressEvent(QGraphicsSceneMouseEvent *event) {
-      pressed = event->lastPos();
-   }
-
-   void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-      if (pressed == event->lastPos() && onClick != NULL)
-         onClick();
-   }
-
- private:
-   void (*onClick) (void);
-   static int fontId;
-   static QPointF pressed;
-};
-
-int MainMenuItem::fontId = -2;
-QPointF MainMenuItem::pressed(NAN, NAN);
-
 MainView::MainView() {
-   QGraphicsScene *menu = new QGraphicsScene();
-   MainMenuItem *text;
-   qreal y = 0;
-   for (int i = 0; i < 3; i++) {
-      text = new MainMenuItem(OPCIONES[i], subMenus[i]);
-      text->setPos(menu->width() / 2, y);
-      menu->addItem(text);
-      y += 160;
-   }
-   QRadialGradient gradient(100, 500, 250);
-   gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
-   gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
-   QBrush bgBrush(gradient);
-   setBackgroundBrush(bgBrush);
-   setFixedSize(800, 600);
-   menu->setSceneRect(0, 0, 790, 590);
+   setUpMenu();
    setScene(menu);
-
+   juego = NULL;
    player = new QMediaPlayer;
    player->setMedia(QUrl(URI_TEMA_INICIO));
    player->setVolume(50);
@@ -110,4 +35,51 @@ MainView::MainView() {
 
 MainView::~MainView() {
    delete player;
+}
+
+void MainView::setUpMenu() {
+   menu = new QGraphicsScene(this);
+   MainMenuItem *text;
+
+   text = new MainMenuItem("Crear partida");
+   text->setPos(menu->width() / 2, 0);
+   menu->addItem(text);
+   connect(text, SIGNAL(clicked()), this, SLOT(crearPartida()));
+
+   text = new MainMenuItem("Unirse a partida");
+   text->setPos(menu->width() / 2, 160);
+   menu->addItem(text);
+   connect(text, SIGNAL(clicked()), this, SLOT(unirseAPartida()));
+
+   text = new MainMenuItem(QString::fromUtf8("Configuraci\u00f3n"));
+   text->setPos(menu->width() / 2, 320);
+   menu->addItem(text);
+
+   QRadialGradient gradient(100, 500, 250);
+   gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
+   gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
+   QBrush bgBrush(gradient);
+   setBackgroundBrush(bgBrush);
+   setFixedSize(800, 600);
+   menu->setSceneRect(0, 0, 790, 590);
+}
+
+void MainView::crearPartida() {
+   DialogoCrearPartida dialog(this);
+   int option = dialog.exec();
+   if (option == QDialog::Accepted) {
+      qDebug() << dialog.getAccptedClient();
+      juego = new BoardScene(this);
+      setScene(juego);
+   }
+}
+
+void MainView::unirseAPartida() {
+   UnirseAPatridaDialog dialog(this);
+   int option = dialog.exec();
+   if (option == QDialog::Accepted) {
+      qDebug() << dialog.getSelectedHost();
+      juego = new BoardScene(this);
+      setScene(juego);
+   }
 }

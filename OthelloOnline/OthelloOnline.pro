@@ -13,7 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    vistajuego.cpp \
     boardscene.cpp \
     boardhandler.cpp \
     squareitem.cpp \
@@ -23,10 +22,10 @@ SOURCES += main.cpp \
     jugadorlocal.cpp \
     jugadorremoto.cpp \
     dialogocrearpartida.cpp \
-    jugador.cpp
+    jugador.cpp \
+    mainmenuitem.cpp
 
 HEADERS  += \
-    vistajuego.h \
     boardscene.h \
     boardhandler.h \
     squareitem.h \
@@ -36,10 +35,10 @@ HEADERS  += \
     partida.h \
     jugadorlocal.h \
     jugadorremoto.h \
-    dialogocrearpartida.h
+    dialogocrearpartida.h \
+    mainmenuitem.h
 
 FORMS    += \
-    vistajuego.ui \
     unirseapatridadialog.ui \
     dialogocrearpartida.ui
 

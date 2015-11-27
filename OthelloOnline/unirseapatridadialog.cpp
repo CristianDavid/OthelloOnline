@@ -7,7 +7,6 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QString>
-#include <QDebug>
 
 class HostWidgetItem : public QListWidgetItem {
  public:
@@ -32,7 +31,7 @@ UnirseAPatridaDialog::UnirseAPatridaDialog(QWidget *parent) :
    ui(new Ui::UnirseAPatridaDialog) {
    ui->setupUi(this);
    QListWidget *partidas = findChild<QListWidget*>("listWidget");
-   HostWidgetItem *partidaLocal = new HostWidgetItem("localhost", "cristian");
+   HostWidgetItem *partidaLocal = new HostWidgetItem("localhost", "local game");
    partidas->addItem(partidaLocal);
 }
 
@@ -40,7 +39,13 @@ UnirseAPatridaDialog::~UnirseAPatridaDialog() {
    delete ui;
 }
 
-void UnirseAPatridaDialog::on_UnirseAPatridaDialog_accepted() {
-   QLineEdit *selectedHost = findChild<QLineEdit*>("selectedHost");
-   qDebug() << selectedHost->text();
+const char *UnirseAPatridaDialog::getSelectedHost() {
+   QLineEdit *line = findChild<QLineEdit*>("selectedHost");
+   QString text = line->text();
+   if (text.isNull() || text.isEmpty()) {
+      return NULL;
+   } else {
+      selectedHost = line->text().toStdString();
+   }
+   return selectedHost.c_str();
 }

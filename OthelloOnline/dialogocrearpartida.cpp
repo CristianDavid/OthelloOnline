@@ -2,8 +2,6 @@
 #include "ui_dialogocrearpartida.h"
 #include <QMessageBox>
 #include <QLineEdit>
-#include "vistajuego.h"
-#include "boardscene.h"
 
 DialogoCrearPartida::DialogoCrearPartida(QWidget *parent) :
    QDialog(parent),
@@ -15,11 +13,9 @@ DialogoCrearPartida::~DialogoCrearPartida() {
    delete ui;
 }
 
-void DialogoCrearPartida::on_DialogoCrearPartida_accepted() {
-   VistaJuego *view;
-   BoardScene *scene;
+int DialogoCrearPartida::getAccptedClient() {
    QLineEdit *nombrePartida = findChild<QLineEdit*>("nombrePartida");
-   QMessageBox mensaje;
+   QMessageBox mensaje(this);
    if (nombrePartida->text().isEmpty()) {
       mensaje.setText(QString::fromUtf8("La cadena está vacía."));
       mensaje.exec();
@@ -29,9 +25,6 @@ void DialogoCrearPartida::on_DialogoCrearPartida_accepted() {
    } else {
       mensaje.setText("Buscando un jugador");
       mensaje.exec();
-      view = new VistaJuego;
-      scene = new BoardScene;
-      view->setScene(scene);
-      view->show();
    }
+   return -1;
 }

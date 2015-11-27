@@ -7,17 +7,12 @@ namespace Ui {
 class DialogoCrearPartida;
 }
 
-class DialogoCrearPartida : public QDialog
-{
+class DialogoCrearPartida : public QDialog {
    Q_OBJECT
-
 public:
    explicit DialogoCrearPartida(QWidget *parent = 0);
    ~DialogoCrearPartida();
-
-private slots:
-   void on_DialogoCrearPartida_accepted();
-
+   int getAccptedClient();
 private:
    Ui::DialogoCrearPartida *ui;
 };

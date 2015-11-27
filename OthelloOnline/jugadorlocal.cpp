@@ -1,10 +1,10 @@
 #include "jugadorlocal.h"
-#include "vistajuego.h"
 #include "boardscene.h"
 
-JugadorLocal::JugadorLocal(BoardScene *juego, const char *nombre) :
+JugadorLocal::JugadorLocal(BoardScene *juego, const char *nombre, Partida &partida) :
    juego(juego),
-   proximoMovimiento(-1) {
+   proximoMovimiento(-1),
+   partida(partida) {
    setNombre(nombre);
 }
 
