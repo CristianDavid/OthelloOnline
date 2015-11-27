@@ -101,6 +101,7 @@ void MainView::encontrandoJugadores() {
    if (conexion->isOpen()) {
       juego = new BoardScene();
       jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
+      jugador->setColor(JUGADOR_NEGRO);
       setScene(juego);
       timer.stop();
       delete esperando;
@@ -114,11 +115,13 @@ void MainView::unirseAPartida() {
    int option = dialog.exec();
    if (option == QDialog::Accepted) {
       const char *host = dialog.getSelectedHost();
+      nombreConexion = dialog.getNombrePartida();
       if (host != NULL) {
          conexion = new ConexionRed(host, OTHELLO_ONLINE_DEFAULT_PORT);
          if (conexion->start(dialog.getNombrePartida())) {
             juego = new BoardScene(this);
             jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
+            jugador->setColor(JUGADOR_BLANCO);
             setScene(juego);
          } else {
             QMessageBox mensajeError;

@@ -10,6 +10,8 @@ JugadorLocal::JugadorLocal(BoardScene *juego, const char *nombre, Partida *parti
    proximoMovimiento(-1),
    oponente(oponente) {
    setNombre(nombre);
+   juego->setNombreJugadorLocal(getNombre());
+   juego->setNombreJugadorRemoro(oponente->getNombre());
    connect(juego, SIGNAL(casillaClick(int,int)), this, SLOT(hacerMovimientoLocal(int,int)));
 }
 

@@ -201,7 +201,7 @@ bool ConexionRed::startAsClient(const char *localName) {
 
    unsigned char buf[512] = "OO";
    buf[3] = strlen(localName);
-   strncpy((char *) buf, localName, buf[3]);
+   strncpy((char *) &buf[4], localName, buf[3]);
    res = send(clientSocket, buf, buf[3]+3, 0);
    if (res < 0) {
       perror("Error al formular peticion");

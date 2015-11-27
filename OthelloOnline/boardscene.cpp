@@ -4,6 +4,7 @@
 #include <QRadialGradient>
 #include <QBrush>
 #include <QColor>
+#include <QFont>
 #include <QList>
 #include "squareitem.h"
 
@@ -29,22 +30,40 @@ BoardScene::BoardScene(QObject *parent) :
       }
    }
 
+   addItem(&nombreJugadorLocal);
+   nombreJugadorLocal.setText("local");
+   nombreJugadorLocal.setX(-250);
+   nombreJugadorLocal.setY(-250);
+   nombreJugadorLocal.setFont(QFont("Times", 20, QFont::Bold));
+   nombreJugadorLocal.setBrush(QColor(89,133,0));
+
+   addItem(&nombreJugadorRemoto);
+   nombreJugadorRemoto.setText("remoto");
+   nombreJugadorRemoto.setX(230);
+   nombreJugadorRemoto.setY(-250);
+   nombreJugadorRemoto.setFont(QFont("Times", 20, QFont::Bold));
+   nombreJugadorRemoto.setBrush(QColor(89,133,0));
+}
+
+void BoardScene::setNombreJugadorLocal(const char *nombre) {
+   nombreJugadorLocal.setText(nombre);
+}
+
+void BoardScene::setNombreJugadorRemoto(const char *nombre) {
+   nombreJugadorRemoto.setText(nombre);
 }
 
 void BoardScene::ponerFicha(int i, int j, QColor colorJugador) {
    SquareItem &casilla = casillas[i][j];
    QList<QGraphicsItem*> children = casilla.childItems();
-   if (children.isEmpty()) {
-      QGraphicsEllipseItem *disk = new QGraphicsEllipseItem(
-                                       0, 0, 50, 50, &casilla);
-      disk->setBrush(colorJugador);
-   } else {
-      QList<QGraphicsItem*>::iterator it = children.begin();
-      while (it != children.end()) {
-         delete *it;
-         it++;
-      }
+   QList<QGraphicsItem*>::iterator it = children.begin();
+   while (it != children.end()) {
+      delete *it;
+      it++;
    }
+   QGraphicsEllipseItem *disk = new QGraphicsEllipseItem(
+                                    0, 0, 50, 50, &casilla);
+   disk->setBrush(colorJugador);
 }
 
 void BoardScene::emitirCasillaClick(int i, int j) {
