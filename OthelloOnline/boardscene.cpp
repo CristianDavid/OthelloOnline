@@ -11,7 +11,7 @@ BoardScene::BoardScene(QObject *parent) :
    QGraphicsScene(parent) {
    QRadialGradient gradient(0, 0, 350);
    gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
-   gradient.setColorAt(1,QColor::fromRgbF(0, 0, 0));
+   gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
    QBrush bgBrush(gradient);
    setBackgroundBrush(bgBrush);
 

@@ -5,7 +5,7 @@ class Jugador {
  public:
    virtual ~Jugador();
    virtual int hacerMovimiento() = 0;
-   virtual void notificarMovimiento(int movimientoAdversario) = 0;
+   virtual int notificarMovimiento(int movimientoAdversario) = 0;
    void setNombre(const char *nombre);
    const char *getNombre();
    void setColor(char color);

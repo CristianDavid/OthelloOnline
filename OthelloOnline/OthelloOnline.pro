@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     jugadorremoto.cpp \
     dialogocrearpartida.cpp \
     jugador.cpp \
-    mainmenuitem.cpp
+    mainmenuitem.cpp \
+    conexionred.cpp
 
 HEADERS  += \
     boardscene.h \
@@ -36,7 +37,8 @@ HEADERS  += \
     jugadorlocal.h \
     jugadorremoto.h \
     dialogocrearpartida.h \
-    mainmenuitem.h
+    mainmenuitem.h \
+    conexionred.h
 
 FORMS    += \
     unirseapatridadialog.ui \

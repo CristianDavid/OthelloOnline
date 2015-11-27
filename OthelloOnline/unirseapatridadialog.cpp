@@ -40,12 +40,29 @@ UnirseAPatridaDialog::~UnirseAPatridaDialog() {
 }
 
 const char *UnirseAPatridaDialog::getSelectedHost() {
+   return selectedHost.c_str();
+}
+
+const char *UnirseAPatridaDialog::getNombrePartida() {
+   return nombrePartida.c_str();
+}
+
+void UnirseAPatridaDialog::on_UnirseAPatridaDialog_accepted() {
    QLineEdit *line = findChild<QLineEdit*>("selectedHost");
    QString text = line->text();
    if (text.isNull() || text.isEmpty()) {
-      return NULL;
+      selectedHost = "";
    } else {
       selectedHost = line->text().toStdString();
    }
-   return selectedHost.c_str();
+
+   line = findChild<QLineEdit*>("nombrePartida");
+   text = line->text();
+   if (text.isNull() || text.isEmpty()) {
+      nombrePartida = "";
+   } else if (text.length() > 255) {
+      nombrePartida = "";
+   } else {
+      nombrePartida = text.toStdString();
+   }
 }

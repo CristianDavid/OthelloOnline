@@ -1,45 +1,33 @@
 #ifndef CONEXIONRED_H
 #define CONEXIONRED_H
 
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <arpa/inet.h> 
-
+#define OTHELLO_ONLINE_DEFAULT_PORT 20303
 #define OFRECER_TABLAS 0x64
 
-//Pesa 3 bytes
-struct cabecera{
-	//Cabecera
-    char letraUnoPotrocolo;
-    char letraDosPotrocolo;
-    unsigned char version :8;
-};
-//Pesa 1 byte
-struct respuestaServidor{
-	unsigned char sinUsar :3;
-	unsigned char varianteReversi :3;
-	unsigned char quienIniciaPartida :1;
-	unsigned char reconoceVersion :1;
-};
-
-//2 bytes
-struct paqueteJuego{
-	char numeroMovimiento;
-	char movimiento; 
-
-};
-
-class conexionRed{
-	int sockfd;
+class ConexionRed{
 public:
-    conexionRed(char * ip, short puerto);
+    ConexionRed(const char *host, short puerto);
+    ConexionRed(); // inicializar como servidor
+    ~ConexionRed();
+    bool start(const char *localName);
+    const char *getRemoteName();
+    int hacerMovimiento(char movimiento);
+    int recibirMovimiento();
+    bool isOpen();
+    bool shouldRetry();
+    void close();
+private:
+    bool startAsServer(const char *localName);
+    bool startAsClient(const char *localName);
+    int startListening();
+    int establecerNoBloqueante(int fd);
+    int clientSocket;
+    char *host;
+    short puerto;
+    bool _isOpen;
+    bool _shouldRetry;
+    char remoteName[256];
+    int serverSocket;
 };
 
 #endif // CONEXIONRED_H

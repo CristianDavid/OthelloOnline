@@ -10,11 +10,14 @@
 #include <QPointF>
 #include <QRadialGradient>
 #include <QString>
+#include <QMessageBox>
+#include <QProgressDialog>
 #include <QDebug>
 #include "unirseapatridadialog.h"
 #include "dialogocrearpartida.h"
 #include "mainmenuitem.h"
 #include "boardscene.h"
+#include "conexionred.h"
 
 #ifdef linux
 #define URI_TEMA_INICIO "qrc:/sounds/main_theme.ogg"
@@ -68,9 +71,23 @@ void MainView::crearPartida() {
    DialogoCrearPartida dialog(this);
    int option = dialog.exec();
    if (option == QDialog::Accepted) {
-      qDebug() << dialog.getAccptedClient();
-      juego = new BoardScene(this);
-      setScene(juego);
+      ConexionRed *conexion = dialog.getConexion();
+      const char *nombre = dialog.getNombrePartida();
+      if (conexion != NULL && nombre != NULL) {
+         QProgressDialog esperando("Esperando un jugador", "Cancelar Partida", 0, 0, this);
+         //esperando.setWindowModality(Qt::NonModal);
+         //esperando.show();
+         do {
+            qDebug() << "paso here";
+            conexion->start(nombre);
+           // if (esperando.wasCanceled()) {
+             //  delete conexion;
+              // return;
+            //}
+         } while (!conexion->isOpen() || conexion->shouldRetry());
+         juego = new BoardScene(this);
+         setScene(juego);
+      }
    }
 }
 
@@ -78,8 +95,11 @@ void MainView::unirseAPartida() {
    UnirseAPatridaDialog dialog(this);
    int option = dialog.exec();
    if (option == QDialog::Accepted) {
-      qDebug() << dialog.getSelectedHost();
-      juego = new BoardScene(this);
-      setScene(juego);
+      const char *host = dialog.getSelectedHost();
+      if (host != NULL) {
+         ConexionRed conexion(host, OTHELLO_ONLINE_DEFAULT_PORT);
+         juego = new BoardScene(this);
+         setScene(juego);
+      }
    }
 }

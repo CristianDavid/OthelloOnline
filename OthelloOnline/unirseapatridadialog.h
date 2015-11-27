@@ -14,9 +14,13 @@ public:
    explicit UnirseAPatridaDialog(QWidget *parent = 0);
    ~UnirseAPatridaDialog();
    const char *getSelectedHost();
+   const char *getNombrePartida();
+private slots:
+   void on_UnirseAPatridaDialog_accepted();
 private:
    Ui::UnirseAPatridaDialog *ui;
    std::string selectedHost;
+   std::string nombrePartida;
 };
 
 #endif // UNIRSEAPATRIDADIALOG_H

@@ -32,21 +32,37 @@
   <widget class="QLineEdit" name="selectedHost">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>20</y>
      <width>311</width>
      <height>25</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>host</string>
+   </property>
   </widget>
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
-     <x>45</x>
-     <y>60</y>
+     <x>40</x>
+     <y>50</y>
      <width>301</width>
-     <height>161</height>
+     <height>131</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="nombrePartida">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>200</y>
+     <width>301</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Tu nombre para la partida</string>
    </property>
   </widget>
  </widget>

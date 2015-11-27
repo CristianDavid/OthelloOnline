@@ -1,6 +1,19 @@
 #include "partida.h"
+#include <cstring>
 #include <string>
+#include <algorithm>
 #include <iostream>
+#include "jugadorlocal.h"
+#include "jugadorremoto.h"
+
+#define HORIZONTAL 0
+#define VERTICAL   1
+/*Se refiere a una linea que
+se creta desde NOROESTE hacia sureste*/
+#define NOROESTE 2
+/* se refiere a una linea que
+se crea dede sureste hacia noreste*/
+#define SUROESTE 3
 
 using namespace std;
 

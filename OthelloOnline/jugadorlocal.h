@@ -9,7 +9,7 @@ class JugadorLocal : public Jugador {
 public:
    JugadorLocal(BoardScene *juego, const char *nombre, Partida &partida);
    int hacerMovimiento();
-   void notificarMovimiento(int movimientoAdversario);
+   int notificarMovimiento(int movimientoAdversario);
 private:
    BoardScene *juego;
    Partida &partida;

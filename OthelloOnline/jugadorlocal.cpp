@@ -3,8 +3,8 @@
 
 JugadorLocal::JugadorLocal(BoardScene *juego, const char *nombre, Partida &partida) :
    juego(juego),
-   proximoMovimiento(-1),
-   partida(partida) {
+   partida(partida),
+   proximoMovimiento(-1) {
    setNombre(nombre);
 }
 
@@ -13,5 +13,6 @@ int JugadorLocal::hacerMovimiento() {
    return proximoMovimiento;
 }
 
-void JugadorLocal::notificarMovimiento(int movimientoAdversario) {
+int JugadorLocal::notificarMovimiento(int movimientoAdversario) {
+   return -1;
 }
