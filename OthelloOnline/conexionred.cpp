@@ -89,6 +89,10 @@ int ConexionRed::recibirMovimiento() {
    }
 }
 
+bool ConexionRed::isServer() {
+   return host == NULL;
+}
+
 bool ConexionRed::isOpen() {
    return _isOpen;
 }
@@ -136,7 +140,7 @@ bool ConexionRed::startAsServer(const char *localName) {
    }
 
    strncpy(remoteName, (char *) &buf[4], buf[3]);
-
+   remoteName[buf[3]] = '\0';
 
    buf[0] = 3;
    buf[1] = strlen(localName);
@@ -217,7 +221,10 @@ bool ConexionRed::startAsClient(const char *localName) {
       return false;
    }
 
+   establecerNoBloqueante(clientSocket);
+
    strncpy(remoteName, (char *) &buf[2], buf[1]);
+   remoteName[buf[1]] = '\0';
    return true;
 }
 
@@ -261,6 +268,7 @@ int ConexionRed::establecerNoBloqueante(int fd) {
    if (flags < 0) {
       return -1;
    }
+   prevFlags = flags;
    flags |= O_NONBLOCK;
    res = fcntl(fd, F_SETFL, flags);
    if (res < 0) {

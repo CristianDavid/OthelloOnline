@@ -2,7 +2,6 @@
 #define CONEXIONRED_H
 
 #define OTHELLO_ONLINE_DEFAULT_PORT 20303
-#define OFRECER_TABLAS 0x64
 
 class ConexionRed{
 public:
@@ -15,6 +14,7 @@ public:
     int recibirMovimiento();
     bool isOpen();
     bool shouldRetry();
+    bool isServer();
     void close();
 private:
     bool startAsServer(const char *localName);
@@ -28,6 +28,7 @@ private:
     bool _shouldRetry;
     char remoteName[256];
     int serverSocket;
+    int prevFlags;
 };
 
 #endif // CONEXIONRED_H

@@ -5,11 +5,16 @@
 #include <QBrush>
 #include <QColor>
 #include <QFont>
+#include <QString>
 #include <QList>
+#include <QDebug>
+#include <QString>
 #include "squareitem.h"
 
 BoardScene::BoardScene(QObject *parent) :
-   QGraphicsScene(parent) {
+   QGraphicsScene(parent),
+   indicadorLocal(0, 0, 5, 5),
+   indicadorRemoto(0, 0, 5, 5) {
    QRadialGradient gradient(0, 0, 350);
    gradient.setColorAt(0, QColor::fromRgbF(0.9, 0.9, 0.9));
    gradient.setColorAt(1, QColor::fromRgbF(0, 0, 0));
@@ -33,16 +38,29 @@ BoardScene::BoardScene(QObject *parent) :
    addItem(&nombreJugadorLocal);
    nombreJugadorLocal.setText("local");
    nombreJugadorLocal.setX(-250);
-   nombreJugadorLocal.setY(-250);
+   nombreJugadorLocal.setY(-260);
    nombreJugadorLocal.setFont(QFont("Times", 20, QFont::Bold));
    nombreJugadorLocal.setBrush(QColor(89,133,0));
 
    addItem(&nombreJugadorRemoto);
    nombreJugadorRemoto.setText("remoto");
    nombreJugadorRemoto.setX(230);
-   nombreJugadorRemoto.setY(-250);
+   nombreJugadorRemoto.setY(-260);
    nombreJugadorRemoto.setFont(QFont("Times", 20, QFont::Bold));
    nombreJugadorRemoto.setBrush(QColor(89,133,0));
+
+   indicadorLocal.setBrush(Qt::yellow);
+   indicadorLocal.setParentItem(&nombreJugadorLocal);
+   indicadorRemoto.setBrush(Qt::yellow);
+   indicadorRemoto.setParentItem(&nombreJugadorRemoto);
+
+   fichas = 61;
+   addItem(&cuentaFichitas);
+   cuentaFichitas.setText(QString::number(fichas));
+   cuentaFichitas.setX(0);
+   cuentaFichitas.setY(-280);
+   cuentaFichitas.setFont(QFont("Times", 25, QFont::Bold));
+   cuentaFichitas.setBrush(Qt::yellow);
 }
 
 void BoardScene::setNombreJugadorLocal(const char *nombre) {
@@ -51,6 +69,18 @@ void BoardScene::setNombreJugadorLocal(const char *nombre) {
 
 void BoardScene::setNombreJugadorRemoto(const char *nombre) {
    nombreJugadorRemoto.setText(nombre);
+}
+
+void BoardScene::ponerIndicador(bool turnoLocal) {
+   fichas--;
+   cuentaFichitas.setText(QString::number(fichas));
+   if (turnoLocal) {
+      indicadorLocal.show();
+      indicadorRemoto.hide();
+   } else {
+      indicadorRemoto.show();
+      indicadorLocal.hide();
+   }
 }
 
 void BoardScene::ponerFicha(int i, int j, QColor colorJugador) {

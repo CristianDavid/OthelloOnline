@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QGraphicsEllipseItem>
 #include <QGraphicsSimpleTextItem>
 #include <QColor>
 #include "squareitem.h"
@@ -13,9 +14,13 @@ public:
    explicit BoardScene(QObject *parent = 0);
    void setNombreJugadorLocal(const char *nombre);
    void setNombreJugadorRemoto(const char *nombre);
+   void ponerIndicador(bool turnoLocal);
 private:
    SquareItem casillas[8][8];
    QGraphicsSimpleTextItem nombreJugadorLocal, nombreJugadorRemoto;
+   QGraphicsEllipseItem indicadorLocal, indicadorRemoto;
+   QGraphicsSimpleTextItem cuentaFichitas;
+   int fichas;
 
 signals:
    void casillaClick(int i, int j);

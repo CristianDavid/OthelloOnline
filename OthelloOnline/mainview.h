@@ -29,6 +29,7 @@ class MainView : public QGraphicsView {
    void cancelarEspera();
    void encontrandoJugadores();
    void unirseAPartida();
+   void volverAMenu();
 };
 
 #endif // MAINVIEW_H

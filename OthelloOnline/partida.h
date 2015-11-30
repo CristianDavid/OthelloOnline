@@ -12,11 +12,12 @@
 #include <vector>
 
 class Partida {
-    char tablero[ANCHO_TABLERO][ALTO_TABLERO];
+    char **tablero;
 private:
    std::vector<std::string> split(std::string s, int posicion);
 public:
     Partida();
+    //~Partida();
     std::string obtenerLinea(int x, int y , int direccion);
     std::vector<int> posicionesACambiar(char jugador,int y,std::string linea);
     bool esMovimientoValido(int x, int y, char jugador);

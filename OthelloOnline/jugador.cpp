@@ -1,5 +1,6 @@
 #include "jugador.h"
 #include <cstring>
+#include "partida.h"
 
 Jugador::~Jugador() {
 }

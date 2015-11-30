@@ -8,16 +8,14 @@
 
 #define HORIZONTAL 0
 #define VERTICAL   1
-/*Se refiere a una linea que
-se creta desde NOROESTE hacia sureste*/
-#define NOROESTE 2
-/* se refiere a una linea que
-se crea dede sureste hacia noreste*/
-#define SUROESTE 3
 
 using namespace std;
 
 Partida::Partida(){
+    tablero = new char*[8];
+    for (int i = 0; i < 8; i++) {
+      tablero[i] = new char[8];
+    }
     int i,j;
     for (i = 0; i< ANCHO_TABLERO; i++){
         for (j=0; j< ALTO_TABLERO; j++){
@@ -31,19 +29,30 @@ Partida::Partida(){
 }
 
 bool Partida::esMovimientoValido(int x, int y, char jugador){
+    //return true;
     bool movimientoValido=false;
-    std::vector<int> vector;
-    if (tablero[x][y]==LUGAR_VACIO){
+    //std::vector<int> vector;
+    //if (tablero[x][y]==LUGAR_VACIO){
     	/*Buscando en todas las direcciones desde las cordenadas (x,y) para ver
 			si hay algún movimiento valido*/
-    	for (int i = 0; i <= SUROESTE; ++i)	{
-    		vector=posicionesACambiar(jugador,y,obtenerLinea(x,y,i));
-    		if (vector.empty()){
+      /*for (int i = 0; i <= VERTICAL; ++i)	{
+         vector=posicionesACambiar(jugador,(VERTICAL)? x : y,obtenerLinea(x,y,i));
+         if (!vector.empty()){
     			movimientoValido=true;
     			break;
     		}
-    	}
-    }
+      }*/
+    //}
+    std::vector<int> v;
+    v= posicionesACambiar(jugador,y,obtenerLinea(x,y,HORIZONTAL));
+    if (!v.empty()) return true;
+    //if (!v.empty()) return;
+    v.clear();
+    //Vertical
+    v= posicionesACambiar(jugador,x,obtenerLinea(x,y,VERTICAL));
+    if (!v.empty()) return true;
+
+    v.clear();
     return movimientoValido;
 }
 
@@ -77,29 +86,6 @@ string Partida::obtenerLinea(int x , int y, int direccion){
 			for (i = 0; i < ALTO_TABLERO; ++i){
 				cadena[i]=tablero[i][y];
 			}
-		break;
-		case NOROESTE:
-			while ((x!=0) && (y!=0) ){
-				y--;
-				x--;
-			}
-			for (i=0; x<ANCHO_TABLERO && y < ALTO_TABLERO; x++,y++,i++){
-				cadena[i]=tablero[x][y];
-			}
-			if (i<ANCHO_TABLERO)
-				cadena[i]=0;
-		break;
-		case SUROESTE:
-			while(x!=0){
-				x--;
-				y++;
-			}
-			for (i=0; x<ANCHO_TABLERO && y<ALTO_TABLERO && y!=-1; x++,y--,i++){
-				cadena[i]=tablero[x][y];
-			}
-			if (i<ANCHO_TABLERO)
-				cadena[i]=0;
-
 		break;
 	}
 	string lineaDeseada(cadena);
@@ -161,59 +147,20 @@ vector<int> Partida::posicionesACambiar(char jugador,int y, std::string linea){
 }
 
 void Partida::hacerMovimiento(int x, int y , char jugador){
-	if (esMovimientoValido(x,y,jugador)){
-		//Horizontal
-		std::vector<int> v;
+      std::vector<int> v;
 		v= posicionesACambiar(jugador,y,obtenerLinea(x,y,HORIZONTAL));
 		for (int i =0 ; i< v.size(); i++){
-			tablero[x][v.at(i)]=JUGADOR_BLANCO;
+         //cout << "Hellos"
+         tablero[x][v.at(i)]=jugador;
 		}
+      //if (!v.empty()) return;
 		v.clear();
 		//Vertical
 		v= posicionesACambiar(jugador,x,obtenerLinea(x,y,VERTICAL));
 		for (int i =0 ; i< v.size(); i++){
-			tablero[v.at(i)][y]=JUGADOR_BLANCO;
+         tablero[v.at(i)][y]=jugador;
 		}
 		v.clear();
-		//NOROESTE
-		v= posicionesACambiar(jugador,x,obtenerLinea(x,y,NOROESTE));
-		int c,d,i;
-		c=x;
-		d=y;
-		while ((c!=0) && (d!=0) ){
-			d--;
-			c--;
-		}
-		sort(v.begin(),v.end());
-		v.erase( unique( v.begin(), v.end() ), v.end() );
-		for (i=0; c<ANCHO_TABLERO && d < ALTO_TABLERO; c++,d++,i++){
-			if (find(v.begin(), v.end(), i) != v.end()){
-				
-				tablero[c][d]=jugador;
-			}
-		}
-		v.clear();
-		//SUROESTE
-		v= posicionesACambiar(jugador,x,obtenerLinea(x,y,SUROESTE));
-		c=x;
-		d=y;
-		sort(v.begin(),v.end());
-		v.erase( unique( v.begin(), v.end() ), v.end() );
-		while(c!=0){
-			c--;
-			d++;
-		}
-		for (i=0; c<ANCHO_TABLERO && d<ALTO_TABLERO && d!=-1; c++,d--,i++){
-			if (find(v.begin(), v.end(), i) != v.end()){	
-				tablero[c][d]=jugador;
-			}
-		}
-
-
-	}
-	else{
-		cout << "NO ES MOVIMIENTO VALIDO"<< endl;
-	}
 }
 
 /*Metodo de utileria para dividir la cadena en dos, las dos cadenas
@@ -244,14 +191,5 @@ vector<string> Partida::split(string s, int posicion){
 
 
 char** Partida::dameTablero(){
-  char** array2D = 0;
-  array2D = new char*[ANCHO_TABLERO];
-
-  for (int h = 0; h < ALTO_TABLERO; h++){
-        array2D[h] = new char[ANCHO_TABLERO];
-        for (int w = 0; w < ANCHO_TABLERO; w++){
-              array2D[h][w] = tablero[h][w];
-        }
-  }
-  return array2D;
+  return tablero;
 }

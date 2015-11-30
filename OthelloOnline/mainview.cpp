@@ -101,7 +101,7 @@ void MainView::encontrandoJugadores() {
    if (conexion->isOpen()) {
       juego = new BoardScene();
       jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
-      jugador->setColor(JUGADOR_NEGRO);
+      connect(juego, SIGNAL(destroyed()), this, SLOT(volverAMenu()));
       setScene(juego);
       timer.stop();
       delete esperando;
@@ -121,7 +121,7 @@ void MainView::unirseAPartida() {
          if (conexion->start(nombreConexion.c_str())) {
             juego = new BoardScene(this);
             jugador = new JugadorLocal((BoardScene*)juego, nombreConexion.c_str(), new Partida(), new JugadorRemoto(conexion));
-            jugador->setColor(JUGADOR_BLANCO);
+            connect(juego, SIGNAL(destroyed()), this, SLOT(volverAMenu()));
             setScene(juego);
          } else {
             QMessageBox mensajeError;
@@ -131,4 +131,8 @@ void MainView::unirseAPartida() {
          }
       }
    }
+}
+
+void MainView::volverAMenu() {
+   setScene(menu);
 }
